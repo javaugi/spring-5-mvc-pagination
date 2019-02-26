@@ -22,7 +22,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @SpringBootApplication
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("com.spring5")
+@EnableJpaRepositories(basePackages = "com.spring5")
 public class HibernateConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(HibernateConfig.class);
