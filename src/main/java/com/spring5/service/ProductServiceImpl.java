@@ -7,8 +7,10 @@
  */
 package com.spring5.service;
 
-import com.spring5.dao.ProductRepository;
+import com.spring5.repository.ProductRepository;
 import com.spring5.model.Product;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +30,27 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
+    @Override
+    public void saveAll(List<Product> products) {
+        productRepository.saveAll(products);
+    }
+
+    @Override
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
     }
 
+    @Override
+    public Iterable<Product> findAll(int offset, int limit) {
+        return productRepository.findAll();
+    }
 }

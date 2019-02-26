@@ -7,7 +7,7 @@
  */
 package com.spring5.service;
 
-import com.spring5.model.Product;
+import com.spring5.model.Contact;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +17,15 @@ import java.util.Optional;
  * @version $LastChangedRevision $LastChangedDate Last Modified Author:
  * $LastChangedBy
  */
-public interface ProductService {
+public interface ContactService {
 
-    void save(Product product);
+    void save(Contact contact);
 
-    void saveAll(List<Product> products);
+    void saveAll(List<Contact> contacts);
 
-    Optional<Product> findById(Long id);
+    Optional<Contact> findById(Long id);
 
-    Iterable<Product> findAll();
+    Iterable<Contact> findAll();
 
-    Iterable<Product> findAll(int offset, int limit);
+    Iterable<Contact> findAll(int offset, int limit);
 }
