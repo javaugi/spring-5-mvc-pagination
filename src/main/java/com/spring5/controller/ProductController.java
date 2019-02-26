@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * $LastChangedBy
  */
 @Controller
-@RequestMapping("product")
+@RequestMapping("/")
 public class ProductController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
@@ -45,7 +45,7 @@ public class ProductController {
         pagedListHolder.setPage(page);
         pagedListHolder.setPageSize(3);
         modelMap.put("pagedListHolder", pagedListHolder);
-        return "product/index";
+        return "index";
     }
 
 }
