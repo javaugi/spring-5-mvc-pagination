@@ -24,7 +24,7 @@ public class ContactRepositoryTest {
     private ContactRepository contactRepository;
 
     @Test
-    public void it_can_find_the_contact_after_save_it() {
+    public void whenSavedthenCanBeFound() {
         Contact contact = new Contact("Mary", "Zheng", "test@email.com", PhoneType.HOME, "6365272943");
         ContactNote note = new ContactNote();
         note.setMessage("Email Test");
@@ -45,7 +45,7 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void it_can_delete_the_contact_after_save_it() {
+    public void whenSavedThenCanBeDeleted() {
         Contact contact = new Contact("Mary", "Zheng", "test@email.com", PhoneType.HOME, "6365272943");
         ContactNote note = new ContactNote();
         note.setMessage("Email Test");
@@ -63,7 +63,7 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void it_can_update_the_contact_after_save_it() {
+    public void whenSavedThenCanBeUpdated() {
         Contact contact = new Contact("Mary", "Zheng", "test@email.com", PhoneType.HOME, "6365272943");
 
         contactRepository.save(contact);
@@ -77,7 +77,7 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    public void it_can_find_contacts_by_name_and_type() {
+    public void whenExistsThenCanBeFoundByName() {
 
         contactRepository.save(new Contact("Mary", "Zheng", "mary.zheng@jcg.org", PhoneType.HOME, "6368168164"));
         contactRepository.save(new Contact("Tom", "Smith", "tom.smith@jcg.org", PhoneType.MOBILE, "(636) 527-2943"));
@@ -97,7 +97,7 @@ public class ContactRepositoryTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void it_return_null_when_not_found() {
+    public void whenNotFoundThenThrowsNotFoundex() {
         Contact found = contactRepository.getOne(2L);
         assertNull(found);
     }
