@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.spring5.model.User;
-import com.spring5.service.UserService;
+import com.spring5.model.MailUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,44 +21,45 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
+import com.spring5.service.MailUserService;
 
 // http://learningprogramming.net/java/spring-mvc/pagination-with-spring-data-jpa-in-spring-mvc/
 // https://examples.javacodegeeks.com/enterprise-java/spring/mvc/spring-mvc-pagination-example/
 // https://examples.javacodegeeks.com/enterprise-java/spring/data/spring-data-jparepository-example/
 //
 @Controller
-public class UserController {
+public class MailUserController {
 
     @Autowired
-    private UserService userService;
+    private MailUserService mailUserService;
 
     @GetMapping("/")
     public String userForm(Locale locale, Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", mailUserService.findAll());
         return "editUsers";
     }
 
     @ModelAttribute("user")
-    public User formBackingObject() {
-        return new User();
+    public MailUser formBackingObject() {
+        return new MailUser();
     }
 
     @PostMapping("/addUser")
-    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+    public String saveUser(@ModelAttribute("user") @Valid MailUser user, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("users", userService.findAll());
+            model.addAttribute("users", mailUserService.findAll());
             return "editUsers";
         }
 
-        userService.save(user);
+        mailUserService.save(user);
         return "redirect:/";
     }
 
     @GetMapping("/listUsers")
     public String listUsers(Locale locale, Model model, HttpServletRequest request, ModelMap modelMap) {
         System.out.println("listUsers");
-        List<User> users = createUsers();
+        List<MailUser> users = createUsers();
 
         //List<User> users = userService.listUsers(); //userPagingRepositary.findAll();
         PagedListHolder pagedListHolder = new PagedListHolder(users);
@@ -75,18 +75,18 @@ public class UserController {
         return "listUsers";
     }
 
-    private List<User> createUsers() {
+    private List<MailUser> createUsers() {
 
-        List<User> returnValue = new ArrayList();
-        User user = null;
+        List<MailUser> returnValue = new ArrayList();
+        MailUser user = null;
         Random rand = new Random();
         for (int i = 0; i < 100; i++) {
-            user = new User();
+            user = new MailUser();
             user.setName(F_N_LIST.get(rand.nextInt(F_N_LIST.size()))
                     + " " + L_N_LIST.get(rand.nextInt(L_N_LIST.size())));
             user.setEmail(getAlphaNumericString(5) + E_LIST.get(rand.nextInt(E_LIST.size())));
 
-            userService.save(user);
+            mailUserService.save(user);
             returnValue.add(user);
         }
 

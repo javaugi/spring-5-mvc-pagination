@@ -7,7 +7,7 @@
  */
 package com.spring5.service;
 
-import com.spring5.model.User;
+import com.spring5.model.MailUser;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -20,19 +20,19 @@ import org.springframework.data.domain.Sort;
  * @version $LastChangedRevision $LastChangedDate Last Modified Author:
  * $LastChangedBy
  */
-public interface UserService {
+public interface MailUserService {
 
-    void save(User user);
+    void save(MailUser user);
 
-    void saveAll(List<User> users);
+    void saveAll(List<MailUser> users);
 
-    Optional<User> findById(Long id);
+    Optional<MailUser> findById(Long id);
 
-    Iterable<User> findAll();
+    Iterable<MailUser> findAll();
 
-    Iterable<User> findAll(int offset, int limit);
+    Iterable<MailUser> findAll(int offset, int limit);
 
-    public Iterable<User> findAll(Sort sort);
+    public Iterable<MailUser> findAll(Sort sort);
 
-    public Page<User> findAll(Pageable pageable);
+    public Page<MailUser> findAll(Pageable pageable);
 }

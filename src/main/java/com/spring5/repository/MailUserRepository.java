@@ -7,7 +7,7 @@
  */
 package com.spring5.repository;
 
-import com.spring5.model.User;
+import com.spring5.model.MailUser;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -21,8 +21,8 @@ import org.springframework.stereotype.Repository;
  * $LastChangedBy
  */
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface MailUserRepository extends PagingAndSortingRepository<MailUser, Long> {
 
-    @Query("SELECT u FROM User u WHERE u.name= (:name)")
-    List<User> findByName(@Param("name") String name);
+    @Query("SELECT u FROM MailUser u WHERE u.name= (:name)")
+    List<MailUser> findByName(@Param("name") String name);
 }

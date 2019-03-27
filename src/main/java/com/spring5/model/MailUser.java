@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "TBL_USERS")
-public class User {
+public class MailUser {
 
     @Id
     @GeneratedValue
