@@ -33,7 +33,7 @@ public class MailUserController {
     @Autowired
     private MailUserService mailUserService;
 
-    @GetMapping("/")
+    @GetMapping("/editUsers")
     public String userForm(Locale locale, Model model) {
         model.addAttribute("users", mailUserService.findAll());
         return "editUsers";
