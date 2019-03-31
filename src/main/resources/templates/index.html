@@ -1,8 +1,8 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head lang="en">
         <meta charset="UTF-8"/>
-        <title>Spring Data REST + ReactJS</title>
+        <title>Spring Data REST + React JS</title>
         <link rel="stylesheet" href="/main.css" />
     </head>
     <body>
@@ -11,6 +11,24 @@
             Hello, <span id="managername" th:text="${#authentication.name}">user</span>.
             <form th:action="@{/logout}" method="post">
                 <input type="submit" value="Log Out"/>
+            </form>
+        </div>
+
+        <div>
+            <form th:action="@{/editUsers}" method="get">
+                <input type="submit" value="Edit Users"/>
+            </form>
+        </div>
+
+        <div>
+            <form th:action="@{/listUsers}" method="get">
+                <input type="submit" value="List Users"/>
+            </form>
+        </div>
+
+        <div>
+            <form th:action="@{/listProducts}" method="get">
+                <input type="submit" value="List Products"/>
             </form>
         </div>
         <!-- end::logout[] -->

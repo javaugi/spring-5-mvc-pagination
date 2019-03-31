@@ -15,6 +15,7 @@
  */
 package com.spring5.model.users;
 
+import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -24,9 +25,10 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 /**
- * A value object to represent {@link Password}s in encrypted and unencrypted state. Note how the methods to create a
- * {@link Password} in encrypted state are restricted to package scope so that only the user subsystem is actually able
- * to encrypted passwords.
+ * A value object to represent {@link Password}s in encrypted and unencrypted
+ * state. Note how the methods to create a {@link Password} in encrypted state
+ * are restricted to package scope so that only the user subsystem is actually
+ * able to encrypted passwords.
  *
  * @author Oliver Gierke
  */
@@ -34,43 +36,47 @@ import lombok.experimental.Delegate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter(AccessLevel.PACKAGE)
 @Embeddable
-public class Password implements CharSequence {
+public class Password implements CharSequence, Serializable {
 
-	private @Delegate final String password;
-	private @Getter transient boolean encrypted;
+    private @Delegate
+    final String password;
+    private @Getter
+    transient final boolean encrypted;
 
-	Password() {
-		this.password = null;
-		this.encrypted = true;
-	}
+    Password() {
+        this.password = null;
+        this.encrypted = true;
+    }
 
-	/**
-	 * Creates a new raw {@link Password} for the given source {@link String}.
-	 *
-	 * @param password must not be {@literal null} or empty.
-	 * @return
-	 */
-	public static Password raw(String password) {
-		return new Password(password, false);
-	}
+    /**
+     * Creates a new raw {@link Password} for the given source {@link String}.
+     *
+     * @param password must not be {@literal null} or empty.
+     * @return
+     */
+    public static Password raw(String password) {
+        return new Password(password, false);
+    }
 
-	/**
-	 * Creates a new encrypted {@link Password} for the given {@link String}. Note how this method is package protected so
-	 * that encrypted passwords can only created by components in this package and not accidentally by clients using the
-	 * type from other packages.
-	 *
-	 * @param password must not be {@literal null} or empty.
-	 * @return
-	 */
-	static Password encrypted(String password) {
-		return new Password(password, true);
-	}
+    /**
+     * Creates a new encrypted {@link Password} for the given {@link String}.
+     * Note how this method is package protected so that encrypted passwords can
+     * only created by components in this package and not accidentally by
+     * clients using the type from other packages.
+     *
+     * @param password must not be {@literal null} or empty.
+     * @return
+     */
+    static Password encrypted(String password) {
+        return new Password(password, true);
+    }
 
-	/*
+    /*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return encrypted ? password : "********";
-	}
+     */
+    @Override
+    public String toString() {
+        return encrypted ? password : "********";
+    }
 }
