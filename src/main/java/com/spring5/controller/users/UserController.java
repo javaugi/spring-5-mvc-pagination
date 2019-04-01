@@ -26,6 +26,8 @@ import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -58,6 +60,8 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/users")
 class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private final UserManagement userManagement;
 
@@ -79,6 +83,7 @@ class UserController {
      */
     @ModelAttribute("users")
     public Page<User> users(@PageableDefault(size = 5) Pageable pageable) {
+        LOG.info("users pageable {}", pageable);
         return userManagement.findAll(pageable);
     }
 
@@ -120,7 +125,7 @@ class UserController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String listUsers(Model model, UserForm userForm) {
-
+        LOG.info("listUsers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
 
         return "users";
