@@ -1,6 +1,5 @@
 package com.spring5.dao;
 
-import com.spring5.model.Contact;
 import java.util.List;
 
 import com.spring5.model.MailUser;
@@ -16,6 +15,8 @@ public interface MailUserDao {
     void saveAll(List<MailUser> users);
 
     Optional<MailUser> findById(Long id);
+
+    Optional<MailUser> findByUsername(String username);
 
     public List<MailUser> findAll();
 

@@ -34,6 +34,11 @@ public class MailUserDaoImp implements MailUserDao {
     }
 
     @Override
+    public Optional<MailUser> findByUsername(String username) {
+        return mailUserRepository.findByUsername(username);
+    }
+
+    @Override
     public List<MailUser> findAll() {
         return FluentIterable.from(mailUserRepository.findAll()).toList();
     }

@@ -35,6 +35,11 @@ public class MailUserServiceImpl implements MailUserService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<MailUser> findByUsername(String username) {
+        return mailUserDao.findByUsername(username);
+    }
+
+    @Transactional(readOnly = true)
     public Iterable<MailUser> findAll() {
         return mailUserDao.findAll();
     }

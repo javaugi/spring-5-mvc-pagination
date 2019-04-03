@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.spring5.model.MailUser;
+import com.spring5.model.MailUserManagement;
+import com.spring5.model.users.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,17 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import com.spring5.service.MailUserService;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import static org.springframework.validation.ValidationUtils.rejectIfEmptyOrWhitespace;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.view.RedirectView;
 
 // http://learningprogramming.net/java/spring-mvc/pagination-with-spring-data-jpa-in-spring-mvc/
 // https://examples.javacodegeeks.com/enterprise-java/spring/mvc/spring-mvc-pagination-example/
@@ -30,8 +43,104 @@ import com.spring5.service.MailUserService;
 @Controller
 public class MailUserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(MailUserController.class);
+
     @Autowired
     private MailUserService mailUserService;
+    @Autowired
+    private MailUserManagement userManagement;
+
+    /**
+     * Equis the model with a {@link Page} of {@link User}s. Spring Data
+     * automatically populates the {@link Pageable} from request data according
+     * to the setup of {@link PageableHandlerMethodArgumentResolver}. Note how
+     * the defaults can be tweaked by using {@link PageableDefault}.
+     *
+     * @param pageable will never be {@literal null}.
+     * @return
+     */
+    @ModelAttribute("users")
+    public Page<MailUser> users(@PageableDefault(size = 5) Pageable pageable) {
+        LOG.info("users pageable {}", pageable);
+        return mailUserService.findAll(pageable);
+    }
+
+    /**
+     * Populates the {@link Model} with the {@link UserForm} automatically
+     * created by Spring Data web components. It will create a
+     * {@link Map}-backed proxy for the interface.
+     *
+     * @param model will never be {@literal null}.
+     * @param userForm will never be {@literal null}.
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public String mailusers(Model model, MailUserForm userForm) {
+        LOG.info("mailusers userForm {}", userForm);
+        model.addAttribute("userForm", userForm);
+
+        return "mailusers";
+    }
+
+    /**
+     * Registers a new {@link User} for the data provided by the given
+     * {@link UserForm}. Note, how an interface is used to bind request
+     * parameters.
+     *
+     * @param userForm the request data bound to the {@link UserForm} instance.
+     * @param binding the result of the binding operation.
+     * @param model the Spring MVC {@link Model}.
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public Object registerMailUser(MailUserForm userForm, BindingResult binding, Model model) {
+
+        userForm.validate(binding, userManagement);
+
+        if (binding.hasErrors()) {
+            return "users";
+        }
+
+        userManagement.register(userForm.getUsername(), userForm.getEmail());
+
+        RedirectView redirectView = new RedirectView("redirect:/users");
+        redirectView.setPropagateQueryParams(true);
+
+        return redirectView;
+    }
+
+    /**
+     * An interface to represent the form to be used
+     *
+     * @author Oliver Gierke
+     */
+    interface MailUserForm {
+
+        String getUsername();
+
+        String getEmail();
+
+        String getRepeatedPassword();
+
+        /**
+         * Validates the {@link UserForm}.
+         *
+         * @param errors
+         * @param userManagement
+         */
+        @Autowired
+        default void validate(BindingResult errors, MailUserManagement userManagement) {
+
+            rejectIfEmptyOrWhitespace(errors, "username", "user.username.empty");
+            rejectIfEmptyOrWhitespace(errors, "email", "user.email.empty");
+            try {
+                userManagement.findByUsername(getUsername()).ifPresent(
+                        user -> errors.rejectValue("username", "user.username.exists"));
+            } catch (IllegalArgumentException o_O) {
+                errors.rejectValue("username", "user.username.invalidFormat");
+            }
+        }
+    }
 
     @GetMapping("/editUsers")
     public String userForm(Locale locale, Model model) {

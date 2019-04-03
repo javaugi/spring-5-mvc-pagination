@@ -32,7 +32,9 @@ public interface MailUserService {
 
     Iterable<MailUser> findAll(int offset, int limit);
 
-    public Iterable<MailUser> findAll(Sort sort);
+    Iterable<MailUser> findAll(Sort sort);
 
-    public Page<MailUser> findAll(Pageable pageable);
+    Page<MailUser> findAll(Pageable pageable);
+
+    Optional<MailUser> findByUsername(String username);
 }

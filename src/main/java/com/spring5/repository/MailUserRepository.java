@@ -9,6 +9,7 @@ package com.spring5.repository;
 
 import com.spring5.model.MailUser;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +26,6 @@ public interface MailUserRepository extends PagingAndSortingRepository<MailUser,
 
     @Query("SELECT u FROM MailUser u WHERE u.name= (:name)")
     List<MailUser> findByName(@Param("name") String name);
+
+    Optional<MailUser> findByUsername(String username);
 }
