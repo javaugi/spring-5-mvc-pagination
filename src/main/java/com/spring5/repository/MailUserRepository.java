@@ -27,5 +27,6 @@ public interface MailUserRepository extends PagingAndSortingRepository<MailUser,
     @Query("SELECT u FROM MailUser u WHERE u.name= (:name)")
     List<MailUser> findByName(@Param("name") String name);
 
-    Optional<MailUser> findByUsername(String username);
+    @Query("SELECT u FROM MailUser u WHERE u.name= (:name)")
+    Optional<MailUser> findByUsername(@Param("name") String name);
 }

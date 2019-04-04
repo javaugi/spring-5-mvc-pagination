@@ -1,0 +1,23 @@
+## Default configurations
+## application specific configuration files. IE application-mi.yml application-uasny.yml
+## application specific configurations will override these
+vaadin:
+    servlet:
+        productionMode: true
+spring:
+    profiles: prod
+server:
+    contextPath: /
+com:
+    ciminc:
+        compass:
+            compassBaseURL: https://localhost:8080/
+---
+spring:
+    profiles: dev
+server:
+    contextPath: /
+com:
+    ciminc:
+        compass:
+            compassBaseURL: http://localhost:8080/

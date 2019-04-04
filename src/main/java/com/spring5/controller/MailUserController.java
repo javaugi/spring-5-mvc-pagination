@@ -25,6 +25,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import com.spring5.service.MailUserService;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -49,6 +50,13 @@ public class MailUserController {
     private MailUserService mailUserService;
     @Autowired
     private MailUserManagement userManagement;
+
+    private List<MailUser> users;
+
+    @PostConstruct
+    public void init() {
+        users = createMailUsers();
+    }
 
     /**
      * Equis the model with a {@link Page} of {@link User}s. Spring Data
@@ -168,8 +176,6 @@ public class MailUserController {
     @GetMapping("/listUsers")
     public String listUsers(Locale locale, Model model, HttpServletRequest request, ModelMap modelMap) {
         System.out.println("listUsers");
-        List<MailUser> users = createUsers();
-
         //List<User> users = userService.listUsers(); //userPagingRepositary.findAll();
         PagedListHolder pagedListHolder = new PagedListHolder(users);
         long count = users.size();
@@ -184,7 +190,7 @@ public class MailUserController {
         return "listUsers";
     }
 
-    private List<MailUser> createUsers() {
+    private List<MailUser> createMailUsers() {
 
         List<MailUser> returnValue = new ArrayList();
         MailUser user = null;
