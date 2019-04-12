@@ -42,6 +42,7 @@ import org.springframework.web.servlet.view.RedirectView;
 // https://examples.javacodegeeks.com/enterprise-java/spring/data/spring-data-jparepository-example/
 //
 @Controller
+@RequestMapping("/mailusers")
 public class MailUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MailUserController.class);
@@ -67,8 +68,8 @@ public class MailUserController {
      * @param pageable will never be {@literal null}.
      * @return
      */
-    @ModelAttribute("users")
-    public Page<MailUser> users(@PageableDefault(size = 5) Pageable pageable) {
+    @ModelAttribute("mailusers")
+    public Page<MailUser> mailusers(@PageableDefault(size = 5) Pageable pageable) {
         LOG.info("users pageable {}", pageable);
         return mailUserService.findAll(pageable);
     }
@@ -83,7 +84,7 @@ public class MailUserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String mailusers(Model model, MailUserForm userForm) {
+    public String listUsers(Model model, MailUserForm userForm) {
         LOG.info("mailusers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
 
@@ -106,12 +107,12 @@ public class MailUserController {
         userForm.validate(binding, userManagement);
 
         if (binding.hasErrors()) {
-            return "users";
+            return "mailusers";
         }
 
-        userManagement.register(userForm.getUsername(), userForm.getEmail());
+        userManagement.register(userForm.getName(), userForm.getEmail());
 
-        RedirectView redirectView = new RedirectView("redirect:/users");
+        RedirectView redirectView = new RedirectView("redirect:/mailusers");
         redirectView.setPropagateQueryParams(true);
 
         return redirectView;
@@ -124,11 +125,9 @@ public class MailUserController {
      */
     interface MailUserForm {
 
-        String getUsername();
+        String getName();
 
         String getEmail();
-
-        String getRepeatedPassword();
 
         /**
          * Validates the {@link UserForm}.
@@ -139,13 +138,13 @@ public class MailUserController {
         @Autowired
         default void validate(BindingResult errors, MailUserManagement userManagement) {
 
-            rejectIfEmptyOrWhitespace(errors, "username", "user.username.empty");
+            rejectIfEmptyOrWhitespace(errors, "name", "user.name.empty");
             rejectIfEmptyOrWhitespace(errors, "email", "user.email.empty");
             try {
-                userManagement.findByUsername(getUsername()).ifPresent(
-                        user -> errors.rejectValue("username", "user.username.exists"));
+                userManagement.findByUsername(getName()).ifPresent(
+                        user -> errors.rejectValue("name", "user.name.exists"));
             } catch (IllegalArgumentException o_O) {
-                errors.rejectValue("username", "user.username.invalidFormat");
+                errors.rejectValue("name", "user.name.invalidFormat");
             }
         }
     }

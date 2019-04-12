@@ -46,21 +46,21 @@ public class MailUserManagement {
      * Registers a {@link User} with the given {@link Username} and
      * {@link Password}.
      *
-     * @param username must not be {@literal null}.
+     * @param name must not be {@literal null}.
      * @param email must not be {@literal null}.
      * @return
      */
-    public MailUser register(String username, String email) {
+    public MailUser register(String name, String email) {
 
-        Assert.notNull(username, "Username must not be null!");
-        Assert.notNull(email, "Password must not be null!");
+        Assert.notNull(name, "Name must not be null!");
+        Assert.notNull(email, "Email must not be null!");
 
-        repository.findByUsername(username).ifPresent(user -> {
+        repository.findByUsername(name).ifPresent(user -> {
             throw new IllegalArgumentException("User with that name already exists!");
         });
 
         MailUser user = new MailUser();
-        user.setName(username);
+        user.setName(name);
         user.setEmail(email);
 
         repository.save(user);

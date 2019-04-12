@@ -10,15 +10,15 @@
         <h1>Users</h1>
 
         <nav>
-            <ul class="pagination" th:with="total = ${users.totalPages}">
-                <li th:if="${users.hasPrevious()}">
-                    <a th:href="@{/users(page=${users.previousPageable().pageNumber},size=${users.size})}" aria-label="Previous">
+            <ul class="pagination" th:with="total = ${mailusers.totalPages}">
+                <li th:if="${mailusers.hasPrevious()}">
+                    <a th:href="@{/mailusers(page=${mailusers.previousPageable().pageNumber},size=${mailusers.size})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li th:each="page : ${#numbers.sequence(0, total - 1)}"><a th:href="@{/users(page=${page},size=${users.size})}" th:text="${page + 1}">1</a></li>
-                <li th:if="${users.hasNext()}">
-                    <a th:href="@{/users(page=${users.nextPageable().pageNumber},size=${users.size})}" aria-label="Next">
+                <li th:each="page : ${#numbers.sequence(0, total - 1)}"><a th:href="@{/mailusers(page=${page},size=${mailusers.size})}" th:text="${page + 1}">1</a></li>
+                <li th:if="${mailusers.hasNext()}">
+                    <a th:href="@{/mailusers(page=${mailusers.nextPageable().pageNumber},size=${mailusers.size})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -26,26 +26,22 @@
         </nav>
 
         <ol>
-            <li th:each="user, it : ${users}" th:with="index = ${it.count}" th:text="${user.username + ' - ' + user.password}" th:value="${users.number * users.size + index}">Username</li>
+            <li th:each="mailuser, it : ${mailusers}" th:with="index = ${it.count}" th:text="${mailuser.name + ' - ' + mailuser.email}" th:value="${mailusers.number * mailusers.size + index}">Username</li>
         </ol>
 
-        <form method="post" role="form" class="gb-form" id="form" th:action="@{/users(page=${page},size=${users.size})}" th:object="${userForm}">
+        <form method="post" role="form" class="gb-form" id="form" th:action="@{/mailusers(page=${page},size=${mailusers.size})}" th:object="${userForm}">
 
             <ul th:if="${#fields.hasErrors('*')}" class="errors" >
                 <li th:each="error : ${#fields.errors('*')}" th:text="${error}" class="text-danger">Input is incorrect</li>
             </ul>
 
             <div class="form-group">
-                <label for="username">Username</label><br />
-                <input type="text" th:field="*{username}" class="form-control" th:errorclass="fieldError" required="required" />
+                <label for="name">Username</label><br />
+                <input type="text" th:field="*{name}" class="form-control" th:errorclass="fieldError" required="required" />
             </div>
             <div class="form-group">
-                <label for="password">Password</label><br />
-                <input type="password" th:field="*{password}" class="form-control" th:errorclass="fieldError" required="required" />
-            </div>
-            <div class="form-group">
-                <label for="repeatedPassword">Password (repeated)</label><br />
-                <input type="password" th:field="*{repeatedPassword}" class="form-control" th:errorclass="fieldError" required="required" />
+                <label for="email">Email</label><br />
+                <input type="text" th:field="*{email}" class="form-control" th:errorclass="fieldError" required="required" />
             </div>
             <input type="submit" class="btn btn-default" value="Register user" />
         </form>
