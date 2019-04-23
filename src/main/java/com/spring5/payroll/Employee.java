@@ -39,6 +39,8 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String description;
+    private String name;
+    private String role;
 
     private @Version
     @JsonIgnore
@@ -48,6 +50,11 @@ public class Employee {
     Manager manager;
 
     private Employee() {
+    }
+
+    public Employee(String name, String role) {
+        this.name = name;
+        this.role = role;
     }
 
     public Employee(String firstName, String lastName, String description, Manager manager) {
