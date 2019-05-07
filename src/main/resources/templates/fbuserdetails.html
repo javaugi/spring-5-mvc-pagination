@@ -1,0 +1,25 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>User Details</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>User Details</h1>
+
+        <ul>
+            <li  th:text="${user.name}">Username: </li>
+            <li th:text="${user.email}">Email: </li>
+            <li th:text="${user.birthday}">Birthday: </li>
+            <li th:text="${user.about}">About: </li>
+        </ul>
+
+        <div>
+            Go back.
+            <form th:action="@{/}" method="get">
+                <input type="submit" value="Go back"/>
+            </form>
+        </div>
+
+    </body>
+</html>
