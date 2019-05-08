@@ -36,3 +36,17 @@ INSERT INTO `product` (`name`, `price`, `quantity`, `description`, `status`) VAL
 INSERT INTO `product` (`name`, `price`, `quantity`, `description`, `status`) VALUES('Laptop 2', '4.0', 11, 'description 8', 0);
 INSERT INTO `product` (`name`, `price`, `quantity`, `description`, `status`) VALUES('Laptop 3', '9.0', 15, 'description 9', 1);
 INSERT INTO `product` (`name`, `price`, `quantity`, `description`, `status`) VALUES('Computer 2', '3.0', 8, 'description 7', 0);
+
+create database spring_social;
+grant all on spring_social.* to root@localhost identified by 'mysql';
+use spring_social;
+CREATE TABLE `product` (
+  `id` long NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `imageUrl` varchar(128) NOT NULL,
+  `providerId` varchar(128) NOT NULL,
+  `emailVerified` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
