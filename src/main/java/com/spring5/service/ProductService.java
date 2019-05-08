@@ -10,6 +10,8 @@ package com.spring5.service;
 import com.spring5.model.Product;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -25,7 +27,11 @@ public interface ProductService {
 
     Optional<Product> findById(Long id);
 
+    Optional<Product> findByName(String name);
+
     Iterable<Product> findAll();
+
+    Page<Product> findAll(Pageable pageable);
 
     Iterable<Product> findAll(int offset, int limit);
 }

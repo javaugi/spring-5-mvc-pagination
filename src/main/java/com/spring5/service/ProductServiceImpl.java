@@ -12,6 +12,8 @@ import com.spring5.model.Product;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +47,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Optional<Product> findByName(String name) {
+        return productRepository.findByName(name);
+    }
+
+    @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
     }
@@ -52,5 +59,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Iterable<Product> findAll(int offset, int limit) {
         return productRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }

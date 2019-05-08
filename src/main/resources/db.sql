@@ -20,7 +20,7 @@ CREATE TABLE `product` (
   `price` decimal(10,1) NOT NULL,
   `quantity` int(11) NOT NULL,
   `description` text NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) default 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -40,7 +40,7 @@ INSERT INTO `product` (`name`, `price`, `quantity`, `description`, `status`) VAL
 create database spring_social;
 grant all on spring_social.* to root@localhost identified by 'mysql';
 use spring_social;
-CREATE TABLE `product` (
+CREATE TABLE `users` (
   `id` long NOT NULL,
   `name` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,

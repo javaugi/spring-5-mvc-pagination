@@ -8,8 +8,9 @@
 package com.spring5.repository;
 
 import com.spring5.model.Product;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Repository;
  * @version $LastChangedRevision $LastChangedDate Last Modified Author:
  * $LastChangedBy
  */
-@Repository("productRepository")
-public interface ProductRepository extends CrudRepository<Product, Long> {
+public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
+
+    @Query("SELECT p FROM Product p WHERE p.name= (:name)")
+    Optional<Product> findByName(String name);
 }

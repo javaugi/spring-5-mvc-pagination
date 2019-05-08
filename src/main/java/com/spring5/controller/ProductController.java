@@ -25,12 +25,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import static org.springframework.validation.ValidationUtils.rejectIfEmptyOrWhitespace;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -67,6 +75,64 @@ public class ProductController {
         totalRecords = allProducts.size();
         long pages = totalRecords / pageSize;
         LOG.info("products total {} pages total {} with page size {}", totalRecords, pages, pageSize);
+    }
+
+    /**
+     * Equis the model with a {@link Page} of {@link Product}s. Spring Data
+     * automatically populates the {@link Pageable} from request data according
+     * to the setup of {@link PageableHandlerMethodArgumentResolver}. Note how
+     * the defaults can be tweaked by using {@link PageableDefault}.
+     *
+     * @param pageable will never be {@literal null}.
+     * @return
+     */
+    @ModelAttribute("pagingProducts")
+    public Page<Product> pagingProducts(@PageableDefault(size = 5) Pageable pageable) {
+        LOG.info("products pageable {}", pageable);
+        return productService.findAll(pageable);
+    }
+
+    /**
+     * Populates the {@link Model} with the {@link ProductForm} automatically
+     * created by Spring Data web components. It will create a
+     * {@link Map}-backed proxy for the interface.
+     *
+     * @param model will never be {@literal null}.
+     * @param productForm will never be {@literal null}.
+     * @return
+     */
+    @RequestMapping("/pagingProducts")
+    public String pagingProducts(Model model, ProductForm productForm) {
+        LOG.info("pagingProducts productForm {}", productForm);
+        model.addAttribute("productForm", productForm);
+
+        return "pagingProducts";
+    }
+
+    interface ProductForm {
+
+        String getName();
+
+        BigDecimal getPrice();
+
+        Integer getQuantity();
+
+        String getDescription();
+
+        boolean isStatus();
+
+        @Autowired
+        default void validate(BindingResult errors, ProductService productService) {
+
+            rejectIfEmptyOrWhitespace(errors, "name", "product.name.empty");
+            rejectIfEmptyOrWhitespace(errors, "price", "product.price.empty");
+            try {
+                productService.findByName(getName()).ifPresent(
+                        product -> errors.rejectValue("name", "product.name.exists"));
+            } catch (IllegalArgumentException o_O) {
+                errors.rejectValue("name", "product.name.invalidFormat");
+            }
+        }
     }
 
     /*

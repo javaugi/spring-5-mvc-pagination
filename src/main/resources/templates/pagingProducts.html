@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Products</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+        <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+    </head>
+    <body>
+        <h1>Products</h1>
+
+        <nav>
+            <ul class="pagination" th:with="total = ${pagingProducts.totalPages}">
+                <li th:if="${pagingProducts.hasPrevious()}">
+                    <a th:href="@{/pagingProducts(page=${pagingProducts.previousPageable().pageNumber},size=${pagingProducts.size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(0, total - 1)}"><a th:href="@{/pagingProducts(page=${page},size=${pagingProducts.size})}" th:text="${page + 1}">1</a></li>
+                <li th:if="${pagingProducts.hasNext()}">
+                    <a th:href="@{/pagingProducts(page=${pagingProducts.nextPageable().pageNumber},size=${pagingProducts.size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <ol>
+            <li th:each="product, it : ${pagingProducts}" th:with="index = ${it.count}" th:text="${product.name}" th:value="${pagingProducts.number * pagingProducts.size + index}">Product</li>
+        </ol>
+
+        <form method="post" role="form" class="gb-form" id="form" th:action="@{/pagingProducts(page=${page},size=${pagingProducts.size})}" th:object="${productForm}">
+
+            <ul th:if="${#fields.hasErrors('*')}" class="errors" >
+                <li th:each="error : ${#fields.errors('*')}" th:text="${error}" class="text-danger">Input is incorrect</li>
+            </ul>
+
+            <div class="form-group">
+                <label for="name">Product</label><br />
+                <input type="text" th:field="*{name}" class="form-control" th:errorclass="fieldError" required="required" />
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label><br />
+                <input type="text" th:field="*{price}" class="form-control" th:errorclass="fieldError" required="required" />
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label><br />
+                <input type="text" th:field="*{quantity}" class="form-control" th:errorclass="fieldError" required="required" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label><br />
+                <input type="text" th:field="*{description}" class="form-control" th:errorclass="fieldError" required="required" />
+            </div>
+            <input type="submit" class="btn btn-default" value="Add Product" />
+        </form>
+
+        <div>
+            Go back.
+            <form th:action="@{/}" method="get">
+                <input type="submit" value="Go back"/>
+            </form>
+        </div>
+    </body>
+</html>
