@@ -36,6 +36,7 @@
         <jetty.version>9.4.14.v20181114</jetty.version>
         <tomcat7.version>2.2</tomcat7.version>
         <social-facebook.version>2.0.3.RELEASE</social-facebook.version>
+        <social-google.version>1.0.0.RELEASE</social-google.version>
         <mysql.version>6.0.3</mysql.version>
         <jsonwebtoken.version>0.10.6</jsonwebtoken.version>
         <jsonwebtoken.jjwt.version>0.9.1</jsonwebtoken.jjwt.version>
@@ -334,8 +335,19 @@
 
         <dependency>
             <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-config</artifactId>
+            <version>1.1.6.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
             <version>${social-facebook.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-google</artifactId>
+            <version>${social-google.version}</version>
         </dependency>
 
         <dependency>
