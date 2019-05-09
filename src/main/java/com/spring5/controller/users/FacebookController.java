@@ -1,7 +1,10 @@
 package com.spring5.controller.users;
 
+import com.example.springsocial.config.AppProperties;
+import com.example.springsocial.model.AuthParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
@@ -11,8 +14,10 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 /**
  * https://examples.javacodegeeks.com/enterprise-java/spring/boot/spring-boot-social-login-example/?utm_source=sendpulse&utm_medium=push&utm_campaign=1279706
@@ -28,6 +33,9 @@ public class FacebookController {
 
     // Creates a facebook connection using the given application id and secret key.
     private FacebookConnectionFactory factory = new FacebookConnectionFactory("833523870340274", "7301de3c93a2cf9d53fbd210ffa358e3");
+
+    @Autowired
+    private AppProperties appProperties;
 
     // Index page.
 //    @GetMapping(value = "/")
@@ -73,6 +81,37 @@ public class FacebookController {
         ModelAndView model = new ModelAndView("fbuserdetails");
         model.addObject("user", userProfile);
         return model;
+    }
+
+    @GetMapping(value = "/sociallogin")
+    @ModelAttribute("authParams")
+    public ModelAndView sociallogin() {
+        log.info("redirect sociallogin");
+        AuthParams authParams = getAuthParams();
+        log.info("authParams {}", authParams);
+        ModelAndView model = new ModelAndView("sociallogin");
+        model.addObject("authParams", authParams);
+        log.info("go to socila login authParams {}", authParams);
+        return model;
+    }
+
+    public AuthParams getAuthParams() {
+        AuthParams authParams = new AuthParams();
+        authParams.setApiBaseUrl(appProperties.getApiBaseUrl().getApiBaseUrl());
+        authParams.setGoogleAuthUrl(appProperties.getGoogleAuthUrl().getGoogleAuthUrl());
+        authParams.setFacebookAuthUrl(appProperties.getFacebookAuthUrl().getFacebookAuthUrl());
+        authParams.setGithubAuthUrl(appProperties.getGithubAuthUrl().getGithubAuthUrl());
+        authParams.setAuthTokenSecret(appProperties.getAuth().getTokenSecret());
+        authParams.setAuth2AuthorizedRedirectUris(appProperties.getOauth2().getAuthorizedRedirectUris());
+
+        log.info("Any values ? authParams {}", authParams);
+        if (StringUtils.isEmpty(appProperties.getApiBaseUrl().getApiBaseUrl())) {
+            authParams.setGoogleAuthUrl("http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect");
+            authParams.setFacebookAuthUrl("http://localhost:8080/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect");
+            authParams.setGithubAuthUrl("http://localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect");
+        }
+
+        return authParams;
     }
 
     private void printUserprofile(User user) {

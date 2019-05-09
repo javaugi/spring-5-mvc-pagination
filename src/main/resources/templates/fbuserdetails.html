@@ -8,14 +8,13 @@
         <h1>User Details</h1>
 
         <ul>
-            <li  th:text="${user.name}">Username: </li>
+            <li th:text="${user.name}">Username: </li>
             <li th:text="${user.email}">Email: </li>
             <li th:text="${user.birthday}">Birthday: </li>
             <li th:text="${user.about}">About: </li>
         </ul>
 
         <div>
-            Go back.
             <form th:action="@{/}" method="get">
                 <input type="submit" value="Go back"/>
             </form>

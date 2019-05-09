@@ -1,0 +1,43 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Social Login</title>
+    </head>
+    <body>
+        <h1>Social Login</h1>
+
+        <div class="social-login">
+            <ul style="list-style-type:none;">
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{${authParams.googleAuthUrl}}"><img th:src="@{/images/google-logo.png}" width="30" alt=""/>Google</a>
+                </li>
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{${authParams.facebookAuthUrl}}"><img th:src="@{/images/fb-logo.png}" width="30" alt=""/>Facebook</a>
+                </li>
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{${authParams.githubAuthUrl}}"><img th:src="@{/images/github-logo.png}" width="30" alt=""/>Github</a>
+                </li>
+            </ul>
+        </div>
+        <div class="social-login">
+            <ul style="list-style-type:none;">
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{${authParams.googleAuthUrl}}"><img th:src="@{/images/google-logo.png}" width="30" alt=""/>Google</a>
+                </li>
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{/facebooklogin}"><img th:src="@{/images/fb-logo.png}" width="30" alt=""/>Facebook</a>
+                </li>
+                <li>
+                    <a class="btn btn-block social-btn google" th:href="@{${authParams.githubAuthUrl}}"><img th:src="@{/images/github-logo.png}" width="30" alt=""/>Github</a>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <form th:action="@{/}" method="get">
+                <input type="submit" value="Go back"/>
+            </form>
+        </div>
+
+    </body>
+</html>

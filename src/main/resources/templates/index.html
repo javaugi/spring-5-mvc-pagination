@@ -39,9 +39,14 @@
         </div>
 
         <div>
-            Spring Boot Social Login Example
             <form th:action="@{/facebooklogin}" method="get">
-                <input type="submit" value="Validate using Facebook"/>
+                <input type="submit" value="Login using Facebook"/>
+            </form>
+        </div>
+
+        <div>
+            <form th:action="@{/sociallogin}" method="get">
+                <input type="submit" value="Login using Social Accounts"/>
             </form>
         </div>
 

@@ -77,3 +77,12 @@ app:
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
+  apiBaseUrl:
+    http://localhost:8080
+  googleAuthUrl:
+      http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect
+  facebookAuthUrl:
+      http://localhost:8080/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect
+  githubAuthUrl:
+      http://localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect
+
