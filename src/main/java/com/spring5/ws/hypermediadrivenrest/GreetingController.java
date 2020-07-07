@@ -4,8 +4,7 @@
  */
 package com.spring5.ws.hypermediadrivenrest;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
-
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class GreetingController {
             @RequestParam(value = "name", required = false, defaultValue = "World") String name) {
 
         Greeting greeting = new Greeting(String.format(TEMPLATE, name));
-        greeting.add(linkTo(methodOn(GreetingController.class).greeting(name)).withSelfRel());
+        greeting.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GreetingController.class).greeting(name)).withSelfRel());
 
         return new ResponseEntity<>(greeting, HttpStatus.OK);
     }
