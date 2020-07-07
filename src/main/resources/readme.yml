@@ -1,0 +1,7 @@
+## YAML Template.
+---
+--- mvn package
+--- set up db using db.sql
+--- mvn spring-boot:run
+--- mvn jetty:run
+--- mvn tomcat7:run
