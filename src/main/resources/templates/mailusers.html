@@ -29,7 +29,7 @@
             <li th:each="mailuser, it : ${mailusers}" th:with="index = ${it.count}" th:text="${mailuser.name + ' - ' + mailuser.email}" th:value="${mailusers.number * mailusers.size + index}">Username</li>
         </ol>
 
-        <form method="post" role="form" class="gb-form" id="form" th:action="@{/mailusers(page=${page},size=${mailusers.size})}" th:object="${userForm}">
+        <form method="post" role="form" class="gb-form" id="form" th:action="@{/registermailuser(page=${page},size=${mailusers.size})}" th:object="${userForm}">
 
             <ul th:if="${#fields.hasErrors('*')}" class="errors" >
                 <li th:each="error : ${#fields.errors('*')}" th:text="${error}" class="text-danger">Input is incorrect</li>

@@ -1,2 +1,2 @@
-mvn package
+clear
 mvn spring-boot:run

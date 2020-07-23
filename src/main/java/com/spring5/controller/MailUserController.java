@@ -42,10 +42,10 @@ import org.springframework.web.servlet.view.RedirectView;
 // https://examples.javacodegeeks.com/enterprise-java/spring/data/spring-data-jparepository-example/
 //
 @Controller
-@RequestMapping("/mailusers")
+//@RequestMapping("/mailusers")
 public class MailUserController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MailUserController.class);
+    private static final Logger log = LoggerFactory.getLogger(MailUserController.class);
 
     @Autowired
     private MailUserService mailUserService;
@@ -60,7 +60,7 @@ public class MailUserController {
     }
 
     /**
-     * Equis the model with a {@link Page} of {@link User}s. Spring Data
+     * Equips the model with a {@link Page} of {@link User}s. Spring Data
      * automatically populates the {@link Pageable} from request data according
      * to the setup of {@link PageableHandlerMethodArgumentResolver}. Note how
      * the defaults can be tweaked by using {@link PageableDefault}.
@@ -70,7 +70,7 @@ public class MailUserController {
      */
     @ModelAttribute("mailusers")
     public Page<MailUser> mailusers(@PageableDefault(size = 5) Pageable pageable) {
-        LOG.info("users pageable {}", pageable);
+        log.info("users pageable {}", pageable);
         return mailUserService.findAll(pageable);
     }
 
@@ -83,9 +83,9 @@ public class MailUserController {
      * @param userForm will never be {@literal null}.
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public String listUsers(Model model, MailUserForm userForm) {
-        LOG.info("mailusers userForm {}", userForm);
+    @RequestMapping(value = "/mailusers", method = RequestMethod.GET)
+    public String mailUsers(Model model, MailUserForm userForm) {
+        log.info("mailusers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
 
         return "mailusers";
@@ -101,7 +101,7 @@ public class MailUserController {
      * @param model the Spring MVC {@link Model}.
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/registermailuser", method = RequestMethod.POST)
     public Object registerMailUser(MailUserForm userForm, BindingResult binding, Model model) {
 
         userForm.validate(binding, userManagement);

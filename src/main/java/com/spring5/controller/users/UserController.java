@@ -57,7 +57,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/users")
+//@RequestMapping("/users")
 class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -97,7 +97,7 @@ class UserController {
      * @param model the Spring MVC {@link Model}.
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Object register(UserForm userForm, BindingResult binding, Model model) {
 
         userForm.validate(binding, userManagement);
@@ -123,7 +123,7 @@ class UserController {
      * @param userForm will never be {@literal null}.
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String listUsers(Model model, UserForm userForm) {
         LOG.info("listUsers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
