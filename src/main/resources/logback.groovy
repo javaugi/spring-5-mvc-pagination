@@ -67,6 +67,7 @@ if(APPENDERS.any { it =~ 'async-gelf-udp' }){
     }
 }
 logger("com.spring5", DEBUG)
+logger("com.example", DEBUG)
 logger("org.hibernate", ERROR)
 logger("org.springframework", ERROR)
 

@@ -54,7 +54,7 @@ public class GoogleController {
 
         // Url to redirect the user for authentication via OAuth2.0 authorization code grant.
         String authUrl = operations.buildAuthenticateUrl(params);
-        log.info("redirect to {}" + authUrl);
+        log.debug("redirect to {}" + authUrl);
         return "redirect:" + authUrl;
     }
 
@@ -81,6 +81,6 @@ public class GoogleController {
     }
 
     private void printUserprofile(User user) {
-        log.info("profile name {} email {}, birthday {} about {}", user.getName(), user.getEmail(), user.getBirthday(), user.getAbout());
+        log.debug("profile name {} email {}, birthday {} about {}", user.getName(), user.getEmail(), user.getBirthday(), user.getAbout());
     }
 }

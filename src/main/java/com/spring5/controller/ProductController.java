@@ -50,7 +50,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ProductController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+
     static final String[] PROD_NAMES = {"Abundance", "Acclimaze", "Accruex", "Adornica", "Aerosol Cheese", "Aftertizer",
         "Airborne Pickle", "AirHead", "Alumina", "Apple Cheeks", "Baby Donuts", "Bag of Scones", "Bath and Relax",
         "Botox Barbie", "Brand Dandy", "Bris-o-matic", "Brush n Flush", "Bum Bait", "Buster Boon", "Callflex",
@@ -74,7 +75,7 @@ public class ProductController {
         allProducts = FluentIterable.from(productIterable).toList();
         totalRecords = allProducts.size();
         long pages = totalRecords / pageSize;
-        LOG.info("products total {} pages total {} with page size {}", totalRecords, pages, pageSize);
+        log.debug("products total {} pages total {} with page size {}", totalRecords, pages, pageSize);
     }
 
     /**
@@ -88,7 +89,7 @@ public class ProductController {
      */
     @ModelAttribute("pagingProducts")
     public Page<Product> pagingProducts(@PageableDefault(size = 5) Pageable pageable) {
-        LOG.info("products pageable {}", pageable);
+        log.debug("products pageable {}", pageable);
         return productService.findAll(pageable);
     }
 
@@ -103,7 +104,7 @@ public class ProductController {
      */
     @RequestMapping("/pagingProducts")
     public String pagingProducts(Model model, ProductForm productForm) {
-        LOG.info("pagingProducts productForm {}", productForm);
+        log.debug("pagingProducts productForm {}", productForm);
         model.addAttribute("productForm", productForm);
 
         return "pagingProducts";
@@ -176,11 +177,11 @@ public class ProductController {
                     .filter(line -> line.getName().contains(searchParam) || line.getDescription().contains(searchParam))
                     .collect(Collectors.toList());
         }
-        LOG.error("queryString {}", request.getQueryString());
+        log.debug("queryString {}", request.getQueryString());
 
         PagedListHolder pagedListHolder = new PagedListHolder(products);
         int page = ServletRequestUtils.getIntParameter(request, "p", 0);
-        LOG.info("listProducts of page {} size {} displayCriteria {}", page, size, criteria);
+        log.debug("listProducts of page {} size {} displayCriteria {}", page, size, criteria);
         pagedListHolder.setPage(page);
         pagedListHolder.setPageSize(size);
         modelMap.put("pagedListHolder", pagedListHolder);
@@ -202,7 +203,7 @@ public class ProductController {
             }
         }
         request.getSession().setAttribute("displayCriteria", criteria);
-        LOG.error("updateEntry criteria {}", criteria);
+        log.debug("updateEntry criteria {}", criteria);
         return doDisplay(request, modelMap);
     }
 
@@ -210,7 +211,7 @@ public class ProductController {
     public String getPagedProducts(HttpServletRequest request, ModelMap modelMap) {
         PagedListHolder pagedListHolder = new PagedListHolder(allProducts);
         int page = ServletRequestUtils.getIntParameter(request, "p", 0);
-        LOG.info("pagedProducts of page {}", page);
+        log.debug("pagedProducts of page {}", page);
         pagedListHolder.setPage(page);
         pagedListHolder.setPageSize(pageSize);
         modelMap.put("pagedListHolder", pagedListHolder);
@@ -245,22 +246,22 @@ public class ProductController {
     }
 
     public String getEntry() {
-        LOG.error("entry {}", entry);
+        log.debug("entry {}", entry);
         return entry;
     }
 
     public void setEntry(String entry) {
-        LOG.error("set entry {}", entry);
+        log.debug("set entry {}", entry);
         this.entry = entry;
     }
 
     public String getSearch() {
-        LOG.error("search {}", search);
+        log.debug("search {}", search);
         return search;
     }
 
     public void setSearch(String search) {
-        LOG.error("set search {}", search);
+        log.debug("set search {}", search);
         this.search = search;
     }
 

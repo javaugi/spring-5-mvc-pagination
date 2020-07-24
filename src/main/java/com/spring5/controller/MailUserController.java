@@ -70,7 +70,7 @@ public class MailUserController {
      */
     @ModelAttribute("mailusers")
     public Page<MailUser> mailusers(@PageableDefault(size = 5) Pageable pageable) {
-        log.info("users pageable {}", pageable);
+        log.debug("users pageable {}", pageable);
         return mailUserService.findAll(pageable);
     }
 
@@ -85,7 +85,7 @@ public class MailUserController {
      */
     @RequestMapping(value = "/mailusers", method = RequestMethod.GET)
     public String mailUsers(Model model, MailUserForm userForm) {
-        log.info("mailusers userForm {}", userForm);
+        log.debug("mailusers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
 
         return "mailusers";

@@ -10,8 +10,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
+import lombok.ToString;
 
+@Data
+@ToString(exclude = "password")
 public class UserPrincipal implements OAuth2User, UserDetails {
+
     private Long id;
     private String email;
     private String password;

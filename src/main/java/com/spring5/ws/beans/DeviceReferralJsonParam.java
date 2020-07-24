@@ -26,7 +26,7 @@ public class DeviceReferralJsonParam extends WebServiceBase implements Serializa
 
     public DeviceReferralJsonParam(String json) {
 
-        log.error("DeviceReferralJsonParam json=" + json);
+        log.debug("DeviceReferralJsonParam json=" + json);
         //JSONObject obj = null;
         try {
             this.json = json;
@@ -36,7 +36,7 @@ public class DeviceReferralJsonParam extends WebServiceBase implements Serializa
             e.printStackTrace();
         }
 
-        log.error("DeviceReferralJsonParam DeviceReferralValueObject=");
+        log.debug("DeviceReferralJsonParam DeviceReferralValueObject=");
     }
 
     public String getJson() {

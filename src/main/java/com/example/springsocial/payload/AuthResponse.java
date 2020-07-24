@@ -1,6 +1,7 @@
 package com.example.springsocial.payload;
 
 public class AuthResponse {
+
     private String accessToken;
     private String tokenType = "Bearer";
 
@@ -23,4 +24,10 @@ public class AuthResponse {
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
+
+    @Override
+    public String toString() {
+        return "AuthResponse{" + "accessToken=" + accessToken + ", tokenType=" + tokenType + '}';
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.springsocial.payload;
 
 public class ApiResponse {
+
     private boolean success;
     private String message;
 
@@ -24,4 +25,10 @@ public class ApiResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "ApiResponse{" + "success=" + success + ", message=" + message + '}';
+    }
+
 }

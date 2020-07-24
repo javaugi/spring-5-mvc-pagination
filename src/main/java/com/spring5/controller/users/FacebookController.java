@@ -55,7 +55,7 @@ public class FacebookController {
 
         // Url to redirect the user for authentication via OAuth2.0 authorization code grant.
         String authUrl = operations.buildAuthenticateUrl(params);
-        log.info("redirect to {}" + authUrl);
+        log.debug("redirect to {}" + authUrl);
         return "redirect:" + authUrl;
     }
 
@@ -86,12 +86,12 @@ public class FacebookController {
     @GetMapping(value = "/sociallogin")
     @ModelAttribute("authParams")
     public ModelAndView sociallogin() {
-        log.info("redirect sociallogin");
+        log.debug("redirect sociallogin");
         AuthParams authParams = getAuthParams();
-        log.info("authParams {}", authParams);
+        log.debug("authParams {}", authParams);
         ModelAndView model = new ModelAndView("sociallogin");
         model.addObject("authParams", authParams);
-        log.info("go to socila login authParams {}", authParams);
+        log.debug("go to socila login authParams {}", authParams);
         return model;
     }
 
@@ -104,7 +104,7 @@ public class FacebookController {
         authParams.setAuthTokenSecret(appProperties.getAuth().getTokenSecret());
         authParams.setAuth2AuthorizedRedirectUris(appProperties.getOauth2().getAuthorizedRedirectUris());
 
-        log.info("Any values ? authParams {}", authParams);
+        log.debug("Any values ? authParams {}", authParams);
         if (StringUtils.isEmpty(appProperties.getApiBaseUrl().getApiBaseUrl())) {
             authParams.setGoogleAuthUrl("http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect");
             authParams.setFacebookAuthUrl("http://localhost:8080/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect");
@@ -115,6 +115,6 @@ public class FacebookController {
     }
 
     private void printUserprofile(User user) {
-        log.info("profile name {} email {}, birthday {} about {}", user.getName(), user.getEmail(), user.getBirthday(), user.getAbout());
+        log.debug("profile name {} email {}, birthday {} about {}", user.getName(), user.getEmail(), user.getBirthday(), user.getAbout());
     }
 }

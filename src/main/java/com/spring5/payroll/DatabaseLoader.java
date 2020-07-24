@@ -15,6 +15,8 @@
  */
 package com.spring5.payroll;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
+    private static final Logger log = LoggerFactory.getLogger(DatabaseLoader.class);
+
     private final EmployeeRepository employees;
     private final ManagerRepository managers;
 
@@ -42,6 +46,15 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        Manager dlee = this.managers.save(new Manager("dlee", "admin",
+                "ROLE_MANAGER"));
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken("dlee", "doesn't matter",
+                        AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
+
+        this.employees.save(new Employee("Ben", "Swift", "ring bearer", dlee));
+        this.employees.save(new Employee("Bill", "Smith", "burglar", dlee));
+        this.employees.save(new Employee("Phil", "Jackson", "wizard", dlee));
 
         Manager greg = this.managers.save(new Manager("greg", "turnquist",
                 "ROLE_MANAGER"));
@@ -64,6 +77,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.employees.save(new Employee("Merry", "Brandybuck", "pony rider", oliver));
         this.employees.save(new Employee("Peregrin", "Took", "pipe smoker", oliver));
 
+        log.debug("Databaseloader run parms {}", strings);
         SecurityContextHolder.clearContext();
     }
 }

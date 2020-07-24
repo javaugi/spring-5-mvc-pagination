@@ -15,6 +15,8 @@
  */
 package com.spring5.payroll;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,11 +34,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     @Autowired
     private SpringDataJpaUserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        log.debug("securityConfiguration configure auth {}", auth);
         auth.userDetailsService(this.userDetailsService)
                 .passwordEncoder(Manager.PASSWORD_ENCODER);
     }
@@ -56,6 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .logout()
                 .logoutSuccessUrl("/");
+        log.debug("securityConfiguration configure http {}", http);
     }
 
 }

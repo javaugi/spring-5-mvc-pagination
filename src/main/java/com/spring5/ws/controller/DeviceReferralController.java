@@ -38,7 +38,7 @@ public class DeviceReferralController extends WebServiceBase {
     @RequestMapping(method = RequestMethod.POST)
     public String iPhoneReferral(String json) {
         try {
-            log.error("DeviceReferralController json=" + json);
+            log.debug("DeviceReferralController json=" + json);
             DeviceReferralJsonParam jsonParam = new DeviceReferralJsonParam(json);
             return processDeviceReferral(jsonParam.getDrvo(), json);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class DeviceReferralController extends WebServiceBase {
     @RequestMapping("referralgetj")
     public String iPhoneReferralGet(@RequestParam("queryParam") DeviceReferralJsonParam jsonParam) {
         try {
-            log.error("DeviceReferralController.iPhoneReferralGet jsonParam=" + jsonParam);
+            log.debug("DeviceReferralController.iPhoneReferralGet jsonParam=" + jsonParam);
             return processDeviceReferral(jsonParam.getDrvo(), jsonParam.getJson());
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class DeviceReferralController extends WebServiceBase {
     @PostMapping("referralpostj")
     public String iPhoneReferralPost(String json) {
         try {
-            log.error("DeviceReferralController.iPhoneReferralPost json=" + json);
+            log.debug("DeviceReferralController.iPhoneReferralPost json=" + json);
             DeviceReferralJsonParam jsonParam = new DeviceReferralJsonParam(json);
             return processDeviceReferral(jsonParam.getDrvo(), json);
         } catch (Exception e) {
@@ -89,25 +89,25 @@ public class DeviceReferralController extends WebServiceBase {
 
             if ((drvo == null) || StringUtils.isEmpty(json)) {
                 returnValue.setReturnValue("false");
-                log.error("processDeviceReferral rdvo is null");
+                log.debug("processDeviceReferral rdvo is null");
                 return returnValue.toString();
             }
 
             if (StringUtils.isEmpty(drvo.getReferralSpanUid()) || StringUtils.isEmpty(drvo.getReferralSpanPwd())) {
                 returnValue.setReturnValue("false");
-                log.error("processDeviceReferral invalid uid or pwd uid=" + drvo.getReferralSpanUid() + "-pwd=" + drvo.getReferralSpanPwd());
+                log.debug("processDeviceReferral invalid uid or pwd uid=" + drvo.getReferralSpanUid() + "-pwd=" + drvo.getReferralSpanPwd());
                 return returnValue.toString();
             }
             if (!"formFOX!Pwd4uid@2013".equals(drvo.getReferralSpanUid())
                     || !"formFOX!Pwd4uid@2013".equals(drvo.getReferralSpanPwd())) {
                 returnValue.setReturnValue("false");
-                log.error("processDeviceReferral invalid uid or pwd uid=" + drvo.getReferralSpanUid() + "-pwd=" + drvo.getReferralSpanPwd());
+                log.debug("processDeviceReferral invalid uid or pwd uid=" + drvo.getReferralSpanUid() + "-pwd=" + drvo.getReferralSpanPwd());
                 return returnValue.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
             returnValue.setReturnValue("false");
-            log.error("processDeviceReferral exception=" + e.getMessage());
+            log.debug("processDeviceReferral exception=" + e.getMessage());
             return returnValue.toString();
         }
 

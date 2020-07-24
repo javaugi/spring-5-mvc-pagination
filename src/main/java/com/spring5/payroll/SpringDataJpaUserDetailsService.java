@@ -15,6 +15,8 @@
  */
 package com.spring5.payroll;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -30,6 +32,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringDataJpaUserDetailsService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(SpringDataJpaUserDetailsService.class);
+
     private final ManagerRepository repository;
 
     @Autowired
@@ -40,6 +44,7 @@ public class SpringDataJpaUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Manager manager = this.repository.findByName(name);
+        log.debug("loadUserByUsername name {} manager {}", name, manager);
         return new User(manager.getName(), manager.getPassword(),
                 AuthorityUtils.createAuthorityList(manager.getRoles()));
     }

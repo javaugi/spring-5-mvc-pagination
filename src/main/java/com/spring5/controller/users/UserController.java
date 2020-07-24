@@ -60,7 +60,7 @@ import org.springframework.web.servlet.view.RedirectView;
 //@RequestMapping("/users")
 class UserController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private final UserManagement userManagement;
@@ -83,7 +83,7 @@ class UserController {
      */
     @ModelAttribute("users")
     public Page<User> users(@PageableDefault(size = 5) Pageable pageable) {
-        LOG.info("users pageable {}", pageable);
+        log.debug("users pageable {}", pageable);
         return userManagement.findAll(pageable);
     }
 
@@ -125,7 +125,7 @@ class UserController {
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String listUsers(Model model, UserForm userForm) {
-        LOG.info("listUsers userForm {}", userForm);
+        log.debug("listUsers userForm {}", userForm);
         model.addAttribute("userForm", userForm);
 
         return "users";

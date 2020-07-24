@@ -57,7 +57,7 @@ public class AuthController {
                 appProperties.getGithubAuthUrl().getGithubAuthUrl());
         ModelAndView model = new ModelAndView("sociallogin");
         model.addObject("authParams", authParams);
-        log.info("go to socila login authParams {}", authParams);
+        log.debug("go to socila login authParams {}", authParams);
         return "sociallogin";
     }
 
@@ -69,7 +69,7 @@ public class AuthController {
         AuthParams authParams = new AuthParams(appProperties.getApiBaseUrl().getApiBaseUrl(),
                 appProperties.getGoogleAuthUrl().getGoogleAuthUrl(), appProperties.getFacebookAuthUrl().getFacebookAuthUrl(),
                 appProperties.getGithubAuthUrl().getGithubAuthUrl());
-        log.info("go to socila login authParams {}", authParams);
+        log.debug("go to socila login authParams {}", authParams);
         model.addObject("authParams", authParams);
         return model;
     }
@@ -77,6 +77,7 @@ public class AuthController {
     // */
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        log.debug("authenticateUser {}", loginRequest);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -86,9 +87,13 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(token));
+        //return ResponseEntity.ok(new AuthResponse(token));
+
+        AuthResponse response = new AuthResponse(token);
+        ResponseEntity responseEntity = ResponseEntity.ok(response);
+        log.debug("token {} authReponse {} return ()", token, response, responseEntity);
+        return responseEntity;
     }
 
     @PostMapping("/signup")

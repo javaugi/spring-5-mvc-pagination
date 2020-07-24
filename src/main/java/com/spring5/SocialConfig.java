@@ -37,7 +37,7 @@ public class SocialConfig {
     @Bean
     public ConnectionFactoryLocator connectionFactoryLocator() {
         ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-        log.info("connectionFactoryLocator facebook id {} google id {}", env.getProperty("facebook.clientId"), env.getProperty("google.clientId"));
+        log.debug("connectionFactoryLocator facebook id {} google id {}", env.getProperty("facebook.clientId"), env.getProperty("google.clientId"));
 
         registry.addConnectionFactory(new FacebookConnectionFactory(
                 env.getProperty("facebook.clientId"),

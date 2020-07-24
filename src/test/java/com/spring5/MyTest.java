@@ -38,6 +38,6 @@ public class MyTest {
         list.add("Test3");
 
         String inClause = "(" + StringUtils.join(list, ",").replaceAll("(\\w+)", "'$1'") + ")";
-        log.info("inClause {}", inClause);
+        log.debug("inClause {}", inClause);
     }
 }

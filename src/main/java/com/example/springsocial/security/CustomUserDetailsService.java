@@ -1,9 +1,10 @@
 package com.example.springsocial.security;
 
-
 import com.example.springsocial.exception.ResourceNotFoundException;
 import com.example.springsocial.model.User;
 import com.example.springsocial.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,9 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by rajeevkumarsingh on 02/08/17.
  */
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     UserRepository userRepository;
@@ -25,10 +27,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
+        log.debug("email {}", email);
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with email : " + email)
-        );
+                .orElseThrow(()
+                        -> new UsernameNotFoundException("User not found with email : " + email)
+                );
 
         return UserPrincipal.create(user);
     }
@@ -36,9 +39,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
-            () -> new ResourceNotFoundException("User", "id", id)
+                () -> new ResourceNotFoundException("User", "id", id)
         );
 
+        log.debug("id {} user {}", id, user);
         return UserPrincipal.create(user);
     }
 }

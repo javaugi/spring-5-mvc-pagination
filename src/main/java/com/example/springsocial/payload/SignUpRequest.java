@@ -2,12 +2,14 @@ package com.example.springsocial.payload;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import lombok.ToString;
 
 /**
  * Created by rajeevkumarsingh on 02/08/17.
  */
-
+@ToString(exclude = "password")
 public class SignUpRequest {
+
     @NotBlank
     private String name;
 
@@ -41,4 +43,5 @@ public class SignUpRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

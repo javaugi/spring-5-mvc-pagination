@@ -1,15 +1,19 @@
 package com.example.springsocial.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 @Entity
+@ToString(exclude = "password")
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
+    @UniqueConstraint(columnNames = "email")
 })
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
