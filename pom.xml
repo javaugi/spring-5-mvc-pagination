@@ -40,7 +40,7 @@
         <mysql.version>6.0.3</mysql.version>
         <jsonwebtoken.version>0.10.6</jsonwebtoken.version>
         <jsonwebtoken.jjwt.version>0.9.1</jsonwebtoken.jjwt.version>
-        <json-smart.version>2.3</json-smart.version>
+        <json-smart.version>2.4.5</json-smart.version>
 
 
         <joda-time.version>2.10.6</joda-time.version>
