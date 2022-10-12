@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/spring-guides/tut-react-and-spring-data-rest",
   "dependencies": {
-    "fabric": "^2.7.0",
+    "fabric": "^5.2.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "rest": "^1.3.1",
